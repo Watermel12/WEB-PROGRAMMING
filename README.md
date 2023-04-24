@@ -3,11 +3,15 @@
 
 # Please add one more file called .htaccess in CV, beside index.php. If you don't have that file, you can't use our website. Script of .htaccess is: 
 
-RewriteEngine On//
-RewriteCond %{REQUEST_FILENAME} !-f//
-RewriteCond %{REQUEST_FILENAME} !-d//
-RewriteRule ^(.*)$ index.php/$1 [L]//
+RewriteEngine On
 
-Here is the picture for you can easily imagine.
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+# Here is the picture for you can easily imagine.
+
 ![image](https://user-images.githubusercontent.com/118788200/233902964-d789503b-3754-4f4d-ac3a-aef3bbe51288.png)
 

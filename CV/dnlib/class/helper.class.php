@@ -3,7 +3,7 @@
 class Helper
 {
     public static $isPageIsAvailable = false;
-
+    
     public function loadcss($file_name)
     {
         return ASSET_URL.'css/'.$file_name.'?v='.time();
@@ -54,7 +54,11 @@ class Helper
         }
         
         $is_valid = true;
-        $address_bar_url = rtrim($address_bar_url,'/');
+        if ($address_bar_url === null) {
+            $address_bar_url = '';
+        } else {
+            $address_bar_url = rtrim($address_bar_url, '/');
+        }
         $address_bar_url = ltrim($address_bar_url,'/');
     
         $abu_data = explode('/',$address_bar_url);

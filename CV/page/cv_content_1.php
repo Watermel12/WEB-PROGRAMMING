@@ -4,12 +4,13 @@ $resume['skills'] = str_replace('\\',"",$resume['skills']);
 $resume['works'] = str_replace('\\',"",$resume['experience']);
 $resume['education'] = str_replace('\\',"",$resume['education']);
 
-
 $contact=json_decode($resume['contact']);
 $skills=json_decode($resume['skills']);
 $works=json_decode($resume['experience']);
 $education=json_decode($resume['education']);
-
+$phone_num = $resume[0]['phone_num'];
+$email = $resume[0]['email_id'];
+$name = $resume[0]['full_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +31,17 @@ $education=json_decode($resume['education']);
 <div id="doc2" class="">
 CV BUILDER
 	<div id="inner">
-	
 		<div id="hd">
 			<div class="yui-gc">
 				<div class="yui-u first">
-					<h1><?=@$resume['name']?></h1>
+					<h1><?=$name?></h1>
 					<h2><?=@$resume['headline']?></h2>
 				</div>
 
 				<div class="yui-u">
 					<div class="contact-info">
-						<h3><a id="pdf" href="#"><?=$contact->mobile?></a></h3>
-						<h3><a href="mailto:<?=$contact->email?>"><?=$contact->email?></a></h3>
+						<h3><?=$phone_num?></h3>
+						<h3><a href="mailto:<?=@$email?>"><?=@$email?></a></h3>
 						<h3><?=$contact->address?></h3>
 					</div><!--// .contact-info -->
 				</div>
@@ -150,7 +150,7 @@ foreach($education as $ed)
 		</div><!--// bd -->
 
 		<div id="ft">
-			<p><?=$resume['name']?> &mdash; <a href="mailto:<?=$contact->email?>"><?=$contact->email?></a> &mdash; <?=$contact->mobile?></p>
+			<p><?=$name?> &mdash; <a href="mailto:<?=@$email?>"><?=$email?></a> &mdash; <?=@$phone_num?></p>
 		</div><!--// footer -->
 
 	</div><!-- // inner -->

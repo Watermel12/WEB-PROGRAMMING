@@ -15,7 +15,13 @@ class Action{
     }
     function user_id()
     {
-       return 2;
+        $user_data = $this->session->get('Auth');
+        if ($user_data != null) {
+        $users= $this->session->get('Auth')['data'];
+        $user_id = $users['id'];
+        return $user_id;
+        }
+        return 0;
     }
     function __construct()
     {

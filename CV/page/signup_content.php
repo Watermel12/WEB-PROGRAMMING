@@ -12,6 +12,10 @@
       <label for="floatingInput">Email address</label>
     </div>
     <div class="form-floating">
+      <input type="text" class="form-control" name = "phone-num" id="floatingInput" placeholder="012345678" required>
+      <label for="floatingInput">Phone number</label>
+    </div>
+    <div class="form-floating">
       <input type="password" class="form-control" name = "password" id="floatingPassword" placeholder="Password" required>
       <label for="floatingPassword">Password</label>
     </div>

@@ -5,29 +5,34 @@ $action->helper->route('/',function()
 {
     global $action;
     $data ['title'] = 'CV Online - Make & Share CV Online';
-
-    $action->view->load('header', $data);
-    $action->view->load('navbar', $data);
-    
-    $action->view->load('footer');
+    if($action->user_id() != 0){
+        $action->view->load('header', $data);
+        $action->view->load('navbar', $data); 
+        $action->view->load('footer');
+    }
+    else {
+        $action->helper->redirect('login');
+    }
 });
 
 //for logout
 $action->helper->route('action/createresume',function()
 {
-    global $action;
-    $action->onlyForAuthUser();
-    $resume_data[0] = 2;
-    $resume_data[1] = $action->db->clean($_POST['name']);
-    $resume_data[2] = $action->db->clean($_POST['headline']);
-    $resume_data[4] = $action->db->clean($_POST['objective']);
     
-    $contact['email'] = $action->db->clean($_POST['email']);
-    $contact['mobile'] = $action->db->clean($_POST['mobile']);
+    global $action;
+    
+    $action->onlyForAuthUser();
+    $users= $action->session->get('Auth')['data'];
+    $user_id = $users['id'];
+    $resume_data[0] = $user_id;
+
+    $resume_data[1] = $action->db->clean($_POST['headline']);
+    $resume_data[2] = $action->db->clean($_POST['objective']);
+    
     $contact['address'] = $action->db->clean($_POST['address']);
 
     $resume_data[3] = json_encode($contact);
-    $resume_data[5] = json_encode($_POST['skill']);
+    $resume_data[4] = json_encode($_POST['skill']);
     $education=array();
     $work=array();
 foreach($_POST['college'] as $key=>$value)
@@ -47,7 +52,7 @@ $work[$key]['work_desc']=$action->db->clean($_POST['work_desc'][$key]);
     $resume_data[6] = json_encode($work);
     $resume_data[7] = json_encode($education);
     $resume_data[8] = $action->helper->UID();
-    $run=$action->db->insert('resumes', 'user_id,name,headline,objective,contact,skills,experience,education,url', $resume_data);
+    $run=$action->db->insert('resumes', 'user_id,headline,objective,contact,skills,experience,education,url', $resume_data);
     if($run)
     {
          $action->session->set('success', 'resume created');
@@ -128,6 +133,7 @@ $action->helper->route('resume/$url',function($data)
 {
     global $action;
     $resumedata=$action->db->read("resumes","*", "WHERE url='".$data['url']."'" );
+    $userdata=$action->db->read("users","full_name,email_id,phone_num", "WHERE id='".$action->user_id()."'" );
     if(!$resumedata)
     {
         $action->helper->redirect('home');
@@ -135,11 +141,14 @@ $action->helper->route('resume/$url',function($data)
     }
     $resumedata=$resumedata[0];
     echo "<pre>";
-    print_r($resumedata);
 
-    $data ['title'] = $resumedata['name'];
+
+    $data ['title'] = $resumedata['headline'];
     $data ['type'] = 1;
-    $data['resume']=$resumedata;
+    $data['resume']=array_merge($userdata, $resumedata);
+    //view resume value
+    //var_dump($data['resume']);
+
     if($data['type']==1)
     {
         $action->view->load('cv_content_1',$data);
@@ -155,6 +164,7 @@ $action->helper->route('home',function()
 {
     global $action;
     $action->onlyForAuthUser();
+    if($action->user_id()){
     $data ['title'] = 'Home';
     $data ['myresume'] = 'active';
 
@@ -164,6 +174,7 @@ $action->helper->route('home',function()
     $action->view->load('navbar',$data);
     $action->view->load('home_content',$data);
     $action->view->load('footer');
+    }
 });
 
 
@@ -211,7 +222,7 @@ $action->helper->route('action/login',function()
         $users= $action->db->read('users', 'id, email_id', "WHERE email_id='$email'AND password='$password'");
     if(count($users) > 0)
     {
-        $action->session->set('Auth', ['status'=>true, 'data'=>$user[0]]);
+        $action->session->set('Auth', ['status'=>true, 'data'=>$users[0]]);
         $action->session->set('success', 'logged in !');
         $action->helper->redirect('home');
     }
@@ -266,7 +277,8 @@ $action->helper->route('action/signup',function()
     {
         $signup_data[0] = $action->db->clean($_POST['full_name']);
         $signup_data[1] = $action->db->clean($_POST['email']);
-        $signup_data[2] = $action->db->clean($_POST['password']);
+        $signup_data[2] = $action->db->clean($_POST['phone-num']);
+        $signup_data[3] = $action->db->clean($_POST['password']);
         $user=$action->db->read('users', 'email_id', "WHERE email_id='$signup_data[1]'");
         if(count($user) > 0)
         {
@@ -274,7 +286,7 @@ $action->helper->route('action/signup',function()
             $action->helper->redirect('signup');
 
         }else{
-            $action->db->insert('users', 'full_name, email_id, password', $signup_data);
+            $action->db->insert('users', 'full_name, email_id, phone_num, password', $signup_data);
             $action->session->set('success', 'account created !');
             $action->helper->redirect('login');
         }

@@ -24,20 +24,6 @@
   </div>
   <hr>
   <p class="fs-4"><i class="bi bi-person-lines-fill"></i> Contact Details</p>
-  <div class="row justify-content-between">
-  <div class="col-6 mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-    <div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-pill">
-      <input type="email" class="form-control" name="email" placeholder="vipbro@gmail.com" id="inputEmail3" required>
-    </div>
-  </div>
-  <div class="col-6 mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Mobile</label>
-    <div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-pill">
-      <input type="mobile" class="form-control" name="mobile" placeholder="07813929" id="inputEmail3" required>
-    </div>
-  </div>
-  </div>
   <div class="mb-3">
     <label for="inputEmail3" class="col-sm-2 col-form-label">Address</label>
     <div class="p-3 bg-danger bg-opacity-10 border border-danger border-start-0 rounded-pill">

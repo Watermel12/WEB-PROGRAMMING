@@ -4,7 +4,7 @@
 const DB_NAME = 'cv2';
 const DB_HOST = 'localhost';
 const DB_USER = 'root';
-const DB_PASS = 'thang2711';
+const DB_PASS = '';
 
 //URL
 const SITE_URL='http://localhost/CV/';

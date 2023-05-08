@@ -235,6 +235,23 @@ $action->helper->route('action/login',function()
     
 });
 
+//for search form
+$action->helper->route('search', function () {
+    global $action;
+    $data['title'] = 'Search CV Forms';
+
+    $action->view->load('header', $data);
+    $action->view->load('navbar', $data);
+    $action->view->load('search_form');
+    $action->view->load('footer');
+});
+
+$action->helper->route('live_search', function () {
+    global $action;
+    $data['title'] = 'LiveSearching';
+    $action->view->load('livesearch');
+});
+
 //for signup
 
 $action->helper->route('signup',function()

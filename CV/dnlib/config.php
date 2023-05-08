@@ -7,5 +7,5 @@ const DB_USER = 'root';
 const DB_PASS = '';
 
 //URL
-const SITE_URL='http://localhost/CV/';
+const SITE_URL= 'http://localhost/WEB-PROGRAMMING/CV/';
 const ASSET_URL=SITE_URL.'assets';

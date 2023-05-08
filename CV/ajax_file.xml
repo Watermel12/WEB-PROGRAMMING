@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Resumes>
+ <Resume ID="18">
+  <Name>Nguyễn Việt Thắng</Name>
+  <Contact>{"address":"HCM, Viet Nam"}</Contact>
+  <Skills>html, css</Skills>
+  <Education>[{"college":"Bach Khoa","course":"Computer Scient","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/t82y735183xzy1uw6q</Url>
+ </Resume>
+ <Resume ID="19">
+  <Name>Nguyễn Mạnh Phú Quý</Name>
+  <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
+  <Skills>HTML, PHP, JavaScript</Skills>
+  <Education>[{"college":"Ho Chi Minh City of Technology, Ho Chi Minh City, Vietnam","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/uz343tx5y4668qw1y4</Url>
+ </Resume>
+</Resumes>

@@ -1,20 +1,45 @@
 <?php
+$location = '';
+$certificate = '';
+$uni = '';
+$min_exp = '';
+$max_exp = '';
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url
+FROM users 
+JOIN resumes ON users.id = resumes.user_id 
+WHERE resumes.contact LIKE '%" . $location . "%'
+AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL
+AND resumes.certificate LIKE '%" . $certificate . "%'";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $location = $certificate = $uni = $min_exp = $max_exp = "";
     function test_input($data)
     {
-        if (!empty($data)) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
-    $location = test_input($_POST['location']);
-    $certificate = test_input($_POST['certificate']);
-    $uni = test_input($_POST['uni']);
-    $min_exp = test_input($_POST['min_exp']);
-    $max_exp = test_input($_POST['max_exp']);
+    if (!empty($_POST['location'])) {
+        $location = test_input($_POST['location']);
+    }
+
+    if (!empty($_POST['uni'])) {
+        $uni = test_input($_POST['uni']);
+    }
+
+    if (!empty($_POST['certificate'])) {
+        $certificate = test_input($_POST['certificate']);
+    }
+
+    if (!empty($_POST['min_exp'])) {
+        $min_exp = test_input($_POST['min_exp']);
+    }
+
+    if (!empty($_POST['max_exp'])) {
+        $max_exp = test_input($_POST['max_exp']);
+    }
 
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -22,13 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url, certificate.Cer_ID
+    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url
     FROM users 
     JOIN resumes ON users.id = resumes.user_id 
-    JOIN certificate ON resumes.id = certificate.Cer_CV_ID
-    WHERE resumes.contact LIKE '%" . $location . "%' 
-    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL 
-    AND certificate.Cer_Name LIKE '%" . $certificate . "%'";
+    WHERE resumes.contact LIKE '%" . $location . "%'
+    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL
+    AND resumes.certificate LIKE '%" . $certificate . "%' ";
 
     if (!empty($_POST['degree'])) {
         $degrees = $_POST['degree'];
@@ -40,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['skills'])) {
         $checkboxSkills = ["HTML", "CSS", "Javascript", "PHP", "SQL", "C", "C++", "Python", "Java"];
         $otherSkills = ['C#', 'R', 'TypeScript', 'Objective-C', 'Swift', 'MatLab', 'Go', 'Ruby', 'Scala', 'Dart', 'ANTLR'];
-        
+
         $otherSkills = array_diff($otherSkills, $checkboxSkills);
         $skills = $_POST['skills'];
 
@@ -55,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $s = trim($s);
                 if ($first) {
                     if ($s == "C") {
-                        $sql .= "resumes.skills LIKE 'C'";
+                        $sql .= "resumes.skills REGEXP CONCAT('\\\b', 'C', '\\\b') ";
                     } else {
                         $sql .= "resumes.skills LIKE '%" . $s . "%' ";
                     }
@@ -67,9 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql .= ") ";
         }
     }
-    // echo $sql;
-    $result = $conn->query($sql);
 
+    $result = $conn->query($sql);
+}
 ?>
 <h1 class="text-center my-3">Find Jobseekers</h1>
 <form action="search" method="POST" class="mx-4 my-4">
@@ -192,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <table class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th scope="col">#</th>
+
                 <th scope="col">Name</th>
                 <th scope="col">Address</th>
                 <th scope="col">Skills</th>
@@ -201,6 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
         </thead>
         <?php
+        $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $row['contact'] = json_decode($row['contact'], true);
@@ -216,13 +241,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $html = "
                 <tr>
-                    <th scope='row'>{$row['id']}</th>
                     <td>{$row['full_name']}</td>
                     <td>{$row['contact']['address']}</td>
                     <td>" . implode(', ', $row['skills']) . "</td>
                     <td>" . implode(', ', $row['education'][0]) . "</td>
                     <td class='position-relative'>
-                        <a href='" . SITE_URL . "resume/" . $row['url'] . "' class='btn btn-info position-absolute top-50 start-50 translate-middle' role='button'>View</a>
+                        <a target='_blank' href='" . SITE_URL . "resume/" . $row['url'] . "' class='btn btn-info position-absolute top-50 start-50 translate-middle' role='button'>View</a>
                     </td>
                 </tr>";
 
@@ -245,44 +269,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo '<h3 class="text-center text-danger py-2">No CV found</h3>';
         }
-    }
 
         ?>
     </table>
     <?php
-        $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.url FROM users JOIN resumes ON users.id = resumes.user_id;";
-        $result = $conn->query($sql);
 
-        $xml = new XMLWriter();
-        $xml->openURI("ajax_file.xml");
-        $xml->startDocument();
-        $xml->setIndent(true);
-        $xml->startElement('Resumes');
+    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.url FROM users JOIN resumes ON users.id = resumes.user_id;";
+    $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $xml->startElement('Resume');
-                $xml->writeAttribute('ID', $row['id']);
-                $xml->startElement('Name');
-                $xml->writeRaw($row["full_name"]);
-                $xml->endElement();
-                $xml->startElement('Contact');
-                $xml->writeRaw($row["contact"]);
-                $xml->endElement();
-                $xml->startElement('Skills');
-                $xml->writeRaw(implode(', ', json_decode($row["skills"], true)));
-                $xml->endElement();
-                $xml->startElement('Education');
-                $xml->writeRaw($row["education"]);
-                $xml->endElement();
-                $xml->startElement('Url');
-                $xml->writeRaw(SITE_URL . "resume/" . $row['url']);
-                $xml->endElement();
-                $xml->endElement();
-            }
+    $xml = new XMLWriter();
+    $xml->openURI("ajax_file.xml");
+    $xml->startDocument();
+    $xml->setIndent(true);
+    $xml->startElement('Resumes');
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $xml->startElement('Resume');
+            $xml->writeAttribute('ID', $row['id']);
+            $xml->startElement('Name');
+            $xml->writeRaw($row["full_name"]);
+            $xml->endElement();
+            $xml->startElement('Contact');
+            $xml->writeRaw($row["contact"]);
+            $xml->endElement();
+            $xml->startElement('Skills');
+            $xml->writeRaw(implode(', ', json_decode($row["skills"], true)));
+            $xml->endElement();
+            $xml->startElement('Education');
+            $xml->writeRaw($row["education"]);
+            $xml->endElement();
+            $xml->startElement('Url');
+            $xml->writeRaw(SITE_URL . "resume/" . $row['url']);
+            $xml->endElement();
+            $xml->endElement();
         }
+    }
 
-        $xml->endElement();
-        $xml->flush();
-        $conn->close();
-        ?>
+    $xml->endElement();
+    $xml->flush();
+    $conn->close();
+    ?>

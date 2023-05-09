@@ -1,6 +1,6 @@
   
 <main class="form-signin w-100 m-auto text-center">
-  <form method="post" action = "<?=$action->helper->url('action/signup')?>">
+  <form method="post" enctype="multipart/form-data" action = "<?=$action->helper->url('action/signup')?>">
     <img class="mb-4" src="assets/images/logo.png" alt="" width="72">
     <h1 class="h3 mb-3 fw-normal">Create new account</h1>
     <div class="form-floating">
@@ -18,6 +18,10 @@
     <div class="form-floating">
       <input type="password" class="form-control" name = "password" id="floatingPassword" placeholder="Password" required>
       <label for="floatingPassword">Password</label>
+    </div>
+    <div class="field image">
+          <label>Select Image</label>
+          <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit"> Signup </button>
     <a href = "<?=$action->helper->url('login')?>" class="d-block mt-2 text-decoration-none">Already have an account ?</a>

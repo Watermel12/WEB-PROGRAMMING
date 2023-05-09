@@ -8,10 +8,45 @@
   <Url>http://localhost/WEB-PROGRAMMING/CV/resume/t82y735183xzy1uw6q</Url>
  </Resume>
  <Resume ID="19">
-  <Name>Nguyễn Mạnh Phú Quý</Name>
+  <Name>Nguyễn Mạnh Phú Qúy</Name>
   <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
-  <Skills>HTML, PHP, JavaScript</Skills>
-  <Education>[{"college":"Ho Chi Minh City of Technology, Ho Chi Minh City, Vietnam","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/uz343tx5y4668qw1y4</Url>
+  <Skills>HTML, CSS, PHP</Skills>
+  <Education>[{"college":"Ho Chi Minh University of Technology, HCM City, Vietnam","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/183xzy2u581q86tyw5</Url>
+ </Resume>
+ <Resume ID="19">
+  <Name>Nguyễn Mạnh Phú Qúy</Name>
+  <Contact>{"address":"HCM City, Vietnam"}</Contact>
+  <Skills>HTML, CSS, C++</Skills>
+  <Education>[{"college":"Bach Khoa University, Ho Chi Minh City","course":"Doctoral in CS","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/yqzxt80661w89y0u83</Url>
+ </Resume>
+ <Resume ID="18">
+  <Name>Nguyễn Việt Thắng</Name>
+  <Contact>{"address":"HCM, Viet Nam"}</Contact>
+  <Skills>html, css, ruby</Skills>
+  <Education>[{"college":"Bach Khoa","course":"Computer Scient","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/t82y735183xzy1uw6q</Url>
+ </Resume>
+ <Resume ID="18">
+  <Name>Nguyễn Việt Thắng</Name>
+  <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
+  <Skills>HTML, PHP, CSS, ANTLR</Skills>
+  <Education>[{"college":"Ho Chi Minh University of Technology","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/zx68518qw3yu35yt01</Url>
+ </Resume>
+ <Resume ID="19">
+  <Name>Nguyễn Mạnh Phú Qúy</Name>
+  <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
+  <Skills>HTML, CSS, PHP, Go</Skills>
+  <Education>[{"college":"Ho Chi Minh University of Technology, HCM City, Vietnam","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/183xzy2u581q86tyw5</Url>
+ </Resume>
+ <Resume ID="19">
+  <Name>Nguyễn Mạnh Phú Qúy</Name>
+  <Contact>{"address":"HCM City, Vietnam"}</Contact>
+  <Skills>HTML, CSS, C++, C#, Java</Skills>
+  <Education>[{"college":"Bach Khoa University, Ho Chi Minh City","course":"Doctoral in CS","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/yqzxt80661w89y0u83</Url>
  </Resume>
 </Resumes>

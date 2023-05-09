@@ -19,33 +19,33 @@ const Toast = Swal.mixin({
     }
 });
 <?php
-    $error = $action->session->get('error');
-    $success = $action->session->get('success');
+        $error = $action->session->get('error');
+        $success = $action->session->get('success');
 
-    //error
-    if ($error) {
-    ?>
+        //error
+        if ($error) {
+        ?>
 
 Toast.fire({
     icon: 'warning',
     title: '<?= $error ?>'
 });
 <?php
-      $action->session->delete('error');
-    }
+            $action->session->delete('error');
+        }
 
-    //success
-    if ($success) {
-    ?>
+        //success
+        if ($success) {
+        ?>
 
 Toast.fire({
     icon: 'success',
     title: '<?= $success ?>'
 });
 <?php
-      $action->session->delete('success');
-    }
-    ?>
+            $action->session->delete('success');
+        }
+        ?>
 // addskill 
 $("#addskill").click(function() {
     var skill = $('#userskill').val();
@@ -179,6 +179,23 @@ function copyurl(url) {
         icon: 'success',
         title: 'share link copied',
     });
+}
+
+function showResult(str) {
+    if (str.length == 0) {
+        document.getElementById("livesearch").innerHTML = "";
+        document.getElementById("livesearch").style.border = "0px";
+        return;
+    }
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("livesearch").innerHTML = this.responseText;
+            document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+        }
+    }
+    xmlhttp.open("GET", "live_search?q=" + str, true);
+    xmlhttp.send();
 }
  </script>
  </body>

@@ -21,7 +21,7 @@ if (strlen($q) > 0) {
                 $url = $z->item(0)->childNodes->item(0)->nodeValue;
                 $skill = $t->item(0)->childNodes->item(0)->nodeValue;
                 if ($hint == "") {
-                    $hint = "<a style='text-decoration: none' href='" .
+                    $hint = "<a style='text-decoration: none;' href='" .
                         $url .
                         "'>" . "<div>" . $name . " (" . $skill . ")" . "</div>"
                         . "</a>";

@@ -1,5 +1,78 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $location = $certificate = $uni = $min_exp = $max_exp = "";
+    function test_input($data)
+    {
+        if (!empty($data)) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+    }
+    $location = test_input($_POST['location']);
+    $certificate = test_input($_POST['certificate']);
+    $uni = test_input($_POST['uni']);
+    $min_exp = test_input($_POST['min_exp']);
+    $max_exp = test_input($_POST['max_exp']);
+
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url, certificate.Cer_ID
+    FROM users 
+    JOIN resumes ON users.id = resumes.user_id 
+    JOIN certificate ON resumes.id = certificate.Cer_CV_ID
+    WHERE resumes.contact LIKE '%" . $location . "%' 
+    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL 
+    AND certificate.Cer_Name LIKE '%" . $certificate . "%'";
+
+    if (!empty($_POST['degree'])) {
+        $degrees = $_POST['degree'];
+        foreach ($degrees as $degree) {
+            $sql = $sql . "AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].course'), 'one', '%" . $degree . "%') IS NOT NULL ";
+        }
+    }
+
+    if (!empty($_POST['skills'])) {
+        $checkboxSkills = ["HTML", "CSS", "Javascript", "PHP", "SQL", "C", "C++", "Python", "Java"];
+        $otherSkills = ['C#', 'R', 'TypeScript', 'Objective-C', 'Swift', 'MatLab', 'Go', 'Ruby', 'Scala', 'Dart', 'ANTLR'];
+        
+        $otherSkills = array_diff($otherSkills, $checkboxSkills);
+        $skills = $_POST['skills'];
+
+        foreach ($skills as $skill) {
+            if ($skill == 'Others') {
+                $skill = implode(",", $otherSkills);
+            }
+            $sql .= "AND (";
+            $first = true;
+            $skill = explode(",", $skill);
+            foreach ($skill as $s) {
+                $s = trim($s);
+                if ($first) {
+                    if ($s == "C") {
+                        $sql .= "resumes.skills LIKE 'C'";
+                    } else {
+                        $sql .= "resumes.skills LIKE '%" . $s . "%' ";
+                    }
+                    $first = false;
+                } else {
+                    $sql .= "OR resumes.skills LIKE '%" . $s . "%' ";
+                }
+            }
+            $sql .= ") ";
+        }
+    }
+    // echo $sql;
+    $result = $conn->query($sql);
+
+?>
 <h1 class="text-center my-3">Find Jobseekers</h1>
-<form action="#" method="GET" class="mx-4 my-4">
+<form action="search" method="POST" class="mx-4 my-4">
     <div class="input-group">
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
@@ -13,61 +86,60 @@
             <div class="form-group">
                 <label for="location" class="form-label">Location</label>
                 <br>
-                <input class="form-control" type="text" name="location" id="location" placeholder="Ho Chi Minh City">
+                <input class="form-control" type="text" name="location" id="location" placeholder="Ho Chi Minh City"
+                    value="<?php echo $location ?>">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="certificate" class="form-label">Certificate</label>
                 <br>
-                <input class="form-control" type="text" name="certificate" id="certificate" placeholder="IT Engineer">
+                <input class="form-control" type="text" name="certificate" id="certificate" placeholder="IT Engineer"
+                    value="<?php echo $certificate ?>">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="uni" class="form-label">College/University</label>
                 <br>
-                <input class="form-control" type="text" name="uni" id="uni" placeholder="IT Engineer">
+                <input class="form-control" type="text" name="uni" id="uni" placeholder="IT Engineer"
+                    value="<?php echo $uni ?>">
             </div>
         </div>
         <div class="col-12">
             <div class="form-group">
                 <label for="exp" class="form-label">Experiences</label><br>
-                <input class="form-control" type="number" name="min_exp" id="min_exp" placeholder="Min"><br>
-                <input class="form-control" type="number" name="max_exp" id="max_exp" placeholder="Max">
+                <input class="form-control" type="number" name="min_exp" id="min_exp" placeholder="Min"
+                    value="<?php echo $min_exp ?>"><br>
+                <input class="form-control" type="number" name="max_exp" id="max_exp" placeholder="Max"
+                    value="<?php echo $max_exp ?>">
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label">Degree</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="deg1" id="deg1">
+                    <input class="form-check-input" type="checkbox" value="Associate" name="degree[]">
                     <label class="form-check-label" for="deg1" class="form-label">
                         Associate
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="deg2" id="deg2">
+                    <input class="form-check-input" type="checkbox" value="Bachelor" name="degree[]">
                     <label class="form-check-label" for="deg2" class="form-label">
                         Bachelor
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="deg3" id="deg3">
+                    <input class="form-check-input" type="checkbox" value="Master" name="degree[]">
                     <label class="form-check-label" for="deg3" class="form-label">
                         Master
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="deg4" id="deg4">
+                    <input class="form-check-input" type="checkbox" value="Doctoral" name="degree[]">
                     <label class="form-check-label" for="deg4" class="form-label">
                         Doctoral
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="deg5" id="deg5">
-                    <label class="form-check-label" for="deg5" class="form-label">
-                        None
                     </label>
                 </div>
             </div>
@@ -76,38 +148,38 @@
             <div class="form-group">
                 <label class="form-label">Skills</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="sk1" id="sk1">
-                    <label class="form-check-label" for="defaultCheck1" class="form-label">
+                    <input class="form-check-input" type="checkbox" value="HTML, CSS, Javascript" name="skills[]">
+                    <label class="form-check-label" for="sk1" class="form-label">
                         HTML, CSS, JavaScript
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="sk2" id="sk2">
-                    <label class="form-check-label" for="defaultCheck1" class="form-label">
-                        PHP, MySQL
+                    <input class="form-check-input" type="checkbox" value="PHP, SQL" name="skills[]">
+                    <label class="form-check-label" for="sk2" class="form-label">
+                        PHP, SQL
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="sk3" id="sk3">
-                    <label class="form-check-label" for="defaultCheck1" class="form-label">
+                    <input class="form-check-input" type="checkbox" value="C, C++" name="skills[]">
+                    <label class="form-check-label" for="sk3" class="form-label">
                         C/C++
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="sk4" id="sk4">
-                    <label class="form-check-label" for="defaultCheck1" class="form-label">
+                    <input class="form-check-input" type="checkbox" value="Python" name="skills[]">
+                    <label class="form-check-label" for="sk4" class="form-label">
                         Python
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="sk5" id="sk5">
-                    <label class="form-check-label" for="defaultCheck1" class="form-label">
+                    <input class="form-check-input" type="checkbox" value="Java" name="skills[]">
+                    <label class="form-check-label" for="sk5" class="form-label">
                         Java
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="sk6" id="sk6">
-                    <label class="form-check-label" for="defaultCheck1" class="form-label">
+                    <input class="form-check-input" type="checkbox" value="Others" name="skills[]">
+                    <label class="form-check-label" for="sk6" class="form-label">
                         Others
                     </label>
                 </div>
@@ -116,105 +188,101 @@
         <div class="col-12"><button type="submit" class="btn btn-primary my-3">Submit</button></div>
     </div>
 </form>
-
-<div class="m-4">
-    <?php $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    $sql = "SELECT users.id, users.full_name, resumes.headline, resumes.contact, resumes.skills, resumes.education, resumes.url FROM users JOIN resumes ON users.id = resumes.user_id ORDER BY users.id";
-    $result = $conn->query($sql);
-    ?>
-    <div class="table-responsive ">
-        <table class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Skills</th>
-                    <th>College/University</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-
-            <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $row['contact'] = json_decode($row['contact'], true);
-                    $row['skills'] = json_decode($row['skills'], true);
-                    $row['education'] = json_decode($row['education'], true); ?>
+<div class="table-responsive ">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
             <tr>
-                <td><?php echo $row["id"] ?></td>
-                <td><?php echo $row["full_name"] ?></td>
-                <td><?php
-                            echo $row["contact"]['address'] ?></td>
-                <td><?php
-                            echo implode(', ', $row['skills']) ?></td>
-                <td><?php
-                            echo implode(', ', $row['education'][0]) ?></td>
-                <td>
-                    <a href=<?php echo SITE_URL . "resume/" . $row['url'] ?> class="btn btn-info me-md-2"
-                        role="button">View</a>
-                    <!-- <a href="#" class="btn btn-success" role="button">Accept</a> -->
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Skills</th>
+                <th scope="col">College/University</th>
+                <th scope="col">Actions</th>
             </tr>
-            <?php }
-            } else {
-                echo "No CV found";
-            }?>
-        </table>
-    </div>
-</div>
-<?php
-$sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.url FROM users JOIN resumes ON users.id = resumes.user_id;";
-$result = $conn->query($sql);
-$xml = new XMLWriter();
-$xml->openURI("ajax_file.xml");
-$xml->startDocument();
-$xml->setIndent(true);
-$xml->startElement('Resumes');
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $xml->startElement('Resume');
-        $xml->writeAttribute('ID', $row['id']);
-        $xml->startElement('Name');
-        $xml->writeRaw($row["full_name"]);
-        $xml->endElement();
-        $xml->startElement('Contact');
-        $xml->writeRaw($row["contact"]);
-        $xml->endElement();
-        $xml->startElement('Skills');
-        $xml->writeRaw(implode(', ', json_decode($row["skills"], true)));
-        $xml->endElement();
-        $xml->startElement('Education');
-        $xml->writeRaw($row["education"]);
-        $xml->endElement();
-        $xml->startElement('Url');
-        $xml->writeRaw(SITE_URL . "resume/" . $row['url']);
-        $xml->endElement();
-        $xml->endElement();
-    }
-}
+        </thead>
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $row['contact'] = json_decode($row['contact'], true);
+                $row['skills'] = json_decode($row['skills'], true);
+                $row['education'] = json_decode($row['education'], true);
 
-$xml->endElement();
-$xml->flush();
-?>
-<script type="text/javascript">
-function showResult(str) {
-    if (str.length == 0) {
-        document.getElementById("livesearch").innerHTML = "";
-        document.getElementById("livesearch").style.border = "0px";
-        return;
-    }
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("livesearch").innerHTML = this.responseText;
-            document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+                $experience = json_decode($row['experience'], true);
+                $w_duration = $experience[0]['w_duration'];
+                $years = explode("-", $w_duration);
+                $start_year = $years[0];
+                $end_year = $years[1];
+                $exp_year = $end_year - $start_year;
+
+                $html = "
+                <tr>
+                    <th scope='row'>{$row['id']}</th>
+                    <td>{$row['full_name']}</td>
+                    <td>{$row['contact']['address']}</td>
+                    <td>" . implode(', ', $row['skills']) . "</td>
+                    <td>" . implode(', ', $row['education'][0]) . "</td>
+                    <td class='position-relative'>
+                        <a href='" . SITE_URL . "resume/" . $row['url'] . "' class='btn btn-info position-absolute top-50 start-50 translate-middle' role='button'>View</a>
+                    </td>
+                </tr>";
+
+                if (!empty($_POST['min_exp'])) {
+                    if ($exp_year >= $min_exp) {
+                        if (!empty($_POST['max_exp'])) {
+                            if ($exp_year <= $max_exp) {
+                                echo $html;
+                            }
+                        } else echo $html;
+                    }
+                } else if (!empty($_POST['max_exp'])) {
+                    if ($exp_year <= $max_exp) {
+                        echo $html;
+                    }
+                } else {
+                    echo $html;
+                }
+            }
+        } else {
+            echo '<h3 class="text-center text-danger py-2">No CV found</h3>';
         }
     }
-    xmlhttp.open("GET", "live_search?q=" + str, true);
-    xmlhttp.send();
-}
-</script>
+
+        ?>
+    </table>
+    <?php
+        $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.url FROM users JOIN resumes ON users.id = resumes.user_id;";
+        $result = $conn->query($sql);
+
+        $xml = new XMLWriter();
+        $xml->openURI("ajax_file.xml");
+        $xml->startDocument();
+        $xml->setIndent(true);
+        $xml->startElement('Resumes');
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $xml->startElement('Resume');
+                $xml->writeAttribute('ID', $row['id']);
+                $xml->startElement('Name');
+                $xml->writeRaw($row["full_name"]);
+                $xml->endElement();
+                $xml->startElement('Contact');
+                $xml->writeRaw($row["contact"]);
+                $xml->endElement();
+                $xml->startElement('Skills');
+                $xml->writeRaw(implode(', ', json_decode($row["skills"], true)));
+                $xml->endElement();
+                $xml->startElement('Education');
+                $xml->writeRaw($row["education"]);
+                $xml->endElement();
+                $xml->startElement('Url');
+                $xml->writeRaw(SITE_URL . "resume/" . $row['url']);
+                $xml->endElement();
+                $xml->endElement();
+            }
+        }
+
+        $xml->endElement();
+        $xml->flush();
+        $conn->close();
+        ?>

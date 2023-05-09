@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -16,7 +16,7 @@ if(@$type==1)
             <?php
 }
         ?>
-        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/layout.css">
         <link rel="icon" href="assets/images/logo.png">
         <title><?=@$title?></title>
     </head>

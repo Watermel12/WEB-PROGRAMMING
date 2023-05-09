@@ -1,10 +1,9 @@
+<style>
+.bg {
+    border-radius: 15px;
+}
+</style>
 <?php
-$location = '';
-$certificate = '';
-$uni = '';
-$min_exp = '';
-$max_exp = '';
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     function test_input($data)
     {
@@ -37,11 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($conn->connect_error) {
         echo 'Connection error';
     }
-    $sql = "SELECT users.full_name, resumes.id, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url
-    FROM users JOIN resumes ON users.id = resumes.user_id 
-    WHERE resumes.contact LIKE '%" . $location . "%'
-    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL
-    AND resumes.certificate LIKE '%" . $certificate . "%'";
+
+    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url, certificate.Cer_ID
+    FROM users 
+    JOIN resumes ON users.id = resumes.user_id 
+    JOIN certificate ON resumes.id = certificate.Cer_CV_ID
+    WHERE resumes.contact LIKE '%" . $location . "%' 
+    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL 
+    AND certificate.Cer_Name LIKE '%" . $certificate . "%'";
 
     if (!empty($_POST['degree'])) {
         $degrees = $_POST['degree'];
@@ -68,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $s = trim($s);
                 if ($first) {
                     if ($s == "C") {
-                        $sql .= "resumes.skills REGEXP '[[:<:]]C[[:>:]]' ";
+                        $sql .= "resumes.skills LIKE 'C'";
                     } else {
                         $sql .= "resumes.skills LIKE '%" . $s . "%' ";
                     }
@@ -80,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql .= ") ";
         }
     }
-    echo $sql;
+    // echo $sql;
     $result = $conn->query($sql);
 }
 ?>
@@ -94,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             aria-describedby="basic-addon1" onkeyup="showResult(this.value)">
     </div>
     <div id="livesearch" class="mb-4 py-3 px-1"></div>
-    <div class="row mt-4 g-4 bg-info-subtle mx-1">
+    <div class="row mt-4 g-4 bg-info-subtle mx-1 bg">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="location" class="form-label">Location</label>
@@ -198,14 +200,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-        <div class="col-12"><button type="submit" class="btn btn-primary my-3">Submit</button></div>
+        <div class="col-12"><button type="submit" class="btn btn-success my-3">Submit</button></div>
     </div>
 </form>
 <div class="table-responsive mx-4">
     <table class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th scope="col">#</th>
+
                 <th scope="col">Name</th>
                 <th scope="col">Address</th>
                 <th scope="col">Skills</th>
@@ -230,13 +232,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $html = "
                 <tr>
-                    <th scope='row'>{$row['id']}</th>
                     <td>{$row['full_name']}</td>
                     <td>{$row['contact']['address']}</td>
                     <td>" . implode(', ', $row['skills']) . "</td>
                     <td>" . implode(', ', $row['education'][0]) . "</td>
                     <td class='position-relative'>
-                        <a href='" . SITE_URL . "resume/" . $row['url'] . "' class='btn btn-info position-absolute top-50 start-50 translate-middle' role='button'>View</a>
+                        <a target='_blank' href='" . SITE_URL . "resume/" . $row['url'] . "' class='btn btn-info position-absolute top-50 start-50 translate-middle' role='button'>View</a>
                     </td>
                 </tr>";
 

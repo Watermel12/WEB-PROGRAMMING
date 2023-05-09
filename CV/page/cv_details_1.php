@@ -3,13 +3,7 @@
 <form method="post" action="<?=$action->helper->url('action/createresume')?>" class="border border-2 rounded-2 p-2 my-3">
 <p class="fs-4"><i class="bi bi-person-bounding-box"></i> Personal Details</p>
 <div class="row justify-content-between">
-  <div class="col-6 mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label fs-4">Name</label>
-    <div class="p-3 bg-warning bg-opacity-10 border border-warning border-start-0 rounded-pill">
-      <input type="text" class="form-control" name="name" placeholder="Dua Hau" id="inputEmail3" required>
-    </div>
-  </div>
-  <div class="col-6 mb-3">
+  <div class=" mb-3">
     <label for="inputEmail3" class="col-sm-2 col-form-label fs-4">Headline</label>
     <div class="p-3 bg-warning bg-opacity-10 border border-warning border-start-0 rounded-pill">
       <input type="text" class="form-control" name="headline" placeholder="PHP Developer" id="inputEmail3" required>
@@ -54,6 +48,20 @@
       <button type = "button" class = "btn btn-primary" id="addeducation"> Add </button>
     </div>
   </div>
+
+  <hr>
+  <div class="mb-3">
+    <label for="inputEmail3" class="col-sm-2 col-form-label fs-4"><i class="bi bi-journal-bookmark-fill"></i> Certificate</label>
+    <div id="certificates" class= "">
+      
+    </div>
+    <div class="d-flex gap-2 p-3 bg-danger bg-opacity-10 border border-danger border-start-0 rounded-end">
+      <input type="text" class="form-control" id="titles" placeholder = "IELTS 6.0">
+      <input type="text" class="form-control" id="or_name" placeholder = "British Council">
+      <input type="text" class="form-control" id="cert_duration" placeholder = "2020-2024">
+      <button type = "button" class = "btn btn-primary" id="addcertificate"> Add </button>
+    </div>
+  </div>
   <hr>
   <div class="mb-3">
     <label for="inputEmail3" class="col-sm-2 col-form-label fs-4"><i class="bi bi-briefcase-fill"></i> Experience</label>
@@ -67,10 +75,24 @@
       
     </div>
     <span class="d-block mt-2">About Your Work</span>
-    <textarea id="work_desc" class="w-100 my-2"></textarea>
+    <textarea id="work_desc" class="w-100"></textarea>
     <button type = "button" class = "btn btn-primary" id="addexp"> Add </button>
   </div>
+  <hr>
+  <div class="mb-3">
+    <label for="inputEmail3" class="col-sm-2 col-form-label fs-4"><i class="bi bi-journal-bookmark-fill"></i> Reference</label>
+    <div id="references" class= "">
+      
+    </div>
+    <div class="d-flex gap-2 p-3 bg-danger bg-opacity-10 border border-danger border-start-0 rounded-end">
+      <input type="text" class="form-control" id="re_name" placeholder = "Dua Hau">
+      <input type="email" class="form-control" id="re_email" placeholder = "thang@gmail.com">
+      <input type="text" class="form-control" id="re_number" placeholder = "123456789">
+      <input type="text" class="form-control" id="re_relate" placeholder = "sister">
+      <button type = "button" class = "btn btn-primary" id="addrefer"> Add </button>
+    </div>
+  </div>
   
-  <button type="submit" class="btn btn-warning"><i class="bi bi-box2"></i> Create Resume</button>
+  <button type="submit" class="btn btn-success"><i class="bi bi-box2"></i> Create Resume</button>
 </form>
 </div>

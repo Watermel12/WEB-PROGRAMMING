@@ -27,7 +27,6 @@ $img = $resume[0]['img'];
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" /> 
         <link rel="stylesheet" type="text/css" href="../assets/css/cv_content_3.css" media="all"/> 
         
-           
         <link rel="icon" href="../assets/images/logo.png">
         <title><?=@$title?></title>
 		<style>
@@ -38,7 +37,9 @@ $img = $resume[0]['img'];
 	</style>
     </head>
     <body>
-    
+    <div class="header">
+      <h1>~~~</h1>
+    </div>
     
 <div id="doc2" class="yui-t7">
 	<div id="inner">
@@ -234,6 +235,9 @@ $img = $resume[0]['img'];
 
 </div>
 <!--// doc -->
+    <div class="footer">
+      <h1>~~~</h1>
+    </div>
 
 </body>
 </html>

@@ -112,6 +112,21 @@ $action->helper->route('cv-details/$cvtype',function($data)
     $data ['title'] = "CV Details";
     $data ['myresume'] = 'active';
     $action->view->load('header', $data);
+
+    echo "<style>
+    html,
+    body 
+    {
+        height: 100%;
+    }
+
+    body 
+    {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 250%;
+    }
+    </style>";
+
     $action->view->load('navbar',$data);
     if($data['cvtype']==1)
     {
@@ -137,6 +152,21 @@ $action->helper->route('select-template',function()
     $data ['title'] = "Select CV Template";
     $data ['myresume'] = 'active';
     $action->view->load('header', $data);
+
+    echo "<style>
+    html,
+    body 
+    {
+        height: 100%;
+    }
+
+    body 
+    {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 100%;
+    }
+    </style>";
+
     $action->view->load('navbar',$data);
 
     $action->view->load('template_content');
@@ -188,6 +218,19 @@ $action->helper->route('home',function()
     $data['resumes']=$action->db->read('resumes',"*","WHERE user_id=".$action->user_id());
 
     $action->view->load('header', $data);
+    echo "<style>
+    html,
+    body 
+    {
+        height: 100%;
+    }
+
+    body 
+    {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 100%;
+    }
+    </style>";
     $action->view->load('navbar',$data);
     $action->view->load('home_content',$data);
     $action->view->load('footer');
@@ -204,6 +247,19 @@ $action->helper->route('profile',function()
     $data['resumes']=$action->db->read('resumes',"*","WHERE user_id=".$action->user_id());
 
     $action->view->load('header', $data);
+    echo "<style>
+    html,
+    body 
+    {
+        height: 100%;
+    }
+
+    body 
+    {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 150%;
+    }
+    </style>";
     $action->view->load('navbar',$data);
     $action->view->load('profile',$data);
     $action->view->load('footer');
@@ -233,7 +289,8 @@ $action->helper->route('login',function()
         align-items: center;
         padding-top: 40px;
         padding-bottom: 40px;
-        background-color: #F0F8FF;
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 100%;
     }
     </style>";
     $action->view->load('login_content');
@@ -283,13 +340,15 @@ $action->helper->route('signup',function()
     {
         height: 100%;
     }
+
     body 
     {
         display: flex;
         align-items: center;
         padding-top: 40px;
         padding-bottom: 40px;
-        background-color: #F0F8FF;
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 100%;
     }
     </style>";
     $action->view->load('signup_content');
@@ -350,6 +409,19 @@ $action->helper->route('update',function()
         $data['users']=$action->db->read('users',"*","WHERE id=".$action->user_id());
     
         $action->view->load('header', $data);
+        echo "<style>
+    html,
+    body 
+    {
+        height: 100%;
+    }
+
+    body 
+    {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 100%;
+    }
+    </style>";
         $action->view->load('navbar',$data);
         $action->view->load('update_prof',$data);
         $action->view->load('footer');
@@ -378,8 +450,6 @@ $action->helper->route('action/update',function()
             $action->session->set('success', 'account updated !');      
             $action->helper->redirect('profile');
             
-            
-
         
     }
 });
@@ -391,6 +461,19 @@ $action->helper->route('search', function () {
     $data['title'] = 'Search CV Forms';
 
     $action->view->load('header', $data);
+    echo "<style>
+    html,
+    body 
+    {
+        height: 100%;
+    }
+
+    body 
+    {
+        background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 150%;
+    }
+    </style>";
     $action->view->load('navbar', $data);
     $action->view->load('search_form');
     $action->view->load('footer');

@@ -13,6 +13,7 @@
     <h2><?=$userdata[0]["full_name"]?></h2>
     <h5><a href="mailto:<?=@$email?>"><?=$userdata[0]["email_id"]?></a></h5>
     <h5><?=$userdata[0]["phone_num"]?></h5>
+    <button style="width:300px;" class=" btn btn-lg btn-primary" onclick="location.href='<?= $action->helper->url('update') ?>' " type="submit"> Update </button>
   </div>
 </div>
 <a href="<?=$action->helper->url('select-template')?>" class="btn btn-sm btn-primary my-2"><i class="bi bi-plus-circle"></i> Create New Resume</a>

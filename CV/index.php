@@ -337,7 +337,54 @@ $action->helper->route('action/signup',function()
         
     }
 });
+//////////////////////////////////////
 
+$action->helper->route('update',function()
+{
+    global $action;
+    $action->onlyForAuthUser();
+    if($action->user_id()){
+        $data ['title'] = 'Update';
+        $data ['myresume'] = 'active';
+    
+        $data['users']=$action->db->read('users',"*","WHERE id=".$action->user_id());
+    
+        $action->view->load('header', $data);
+        $action->view->load('navbar',$data);
+        $action->view->load('update_prof',$data);
+        $action->view->load('footer');
+        }
+
+});
+
+//for signup action
+$action->helper->route('action/update',function()
+{
+    global $action;
+    $ids=$action->user_id();
+    $error = $action->helper->isAnyEmpty($_POST);
+    if($error)
+    {
+       $action->session->set('error', "$error is empty !");
+       $action->helper->redirect('update');
+    }
+    else
+    {
+        $signup_data[0] = $action->db->clean($_POST['full_name']);
+        $signup_data[1] = $action->db->clean($_POST['email']);
+        $signup_data[2] = $action->db->clean($_POST['phone-num']);
+    
+            $action->db->update('users', 'full_name, email_id, phone_num', $signup_data,"id=".$action->user_id());
+            $action->session->set('success', 'account updated !');      
+            $action->helper->redirect('profile');
+            
+            
+
+        
+    }
+});
+
+//////////////////////////////////////
 //for search form
 $action->helper->route('search', function () {
     global $action;

@@ -16,7 +16,7 @@ if(@$type==1)
             <?php
 }
         ?>
-        <link rel="stylesheet" href="assets/css/mainsss.css">
+        <link rel="stylesheet" href="assets/css/layout.css">
         <link rel="icon" href="assets/images/logo.png">
         <title><?=@$title?></title>
     </head>

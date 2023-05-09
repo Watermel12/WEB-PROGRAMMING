@@ -128,6 +128,7 @@ $action->helper->route('cv-details/$cvtype',function($data)
     </style>";
 
     $action->view->load('navbar',$data);
+
     if($data['cvtype']==1)
     {
         $action->view->load('cv_details_1');
@@ -137,7 +138,6 @@ $action->helper->route('cv-details/$cvtype',function($data)
         
         $action->helper->redirect('select-template');
         
-
     }
     
     $action->view->load('footer');

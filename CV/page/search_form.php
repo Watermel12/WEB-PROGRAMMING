@@ -4,7 +4,21 @@
 }
 </style>
 <?php
+$location = '';
+$certificate = '';
+$uni = '';
+$min_exp = '';
+$max_exp = '';
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url
+FROM users 
+JOIN resumes ON users.id = resumes.user_id 
+WHERE resumes.contact LIKE '%" . $location . "%'
+AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL
+AND resumes.certificate LIKE '%" . $certificate . "%'";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $location = $certificate = $uni = $min_exp = $max_exp = "";
     function test_input($data)
     {
         $data = trim($data);
@@ -33,17 +47,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
     if ($conn->connect_error) {
-        echo 'Connection error';
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url, certificate.Cer_ID
+    $sql = "SELECT users.id, users.full_name, resumes.contact, resumes.skills, resumes.education, resumes.experience, resumes.url
     FROM users 
     JOIN resumes ON users.id = resumes.user_id 
-    JOIN certificate ON resumes.id = certificate.Cer_CV_ID
-    WHERE resumes.contact LIKE '%" . $location . "%' 
-    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL 
-    AND certificate.Cer_Name LIKE '%" . $certificate . "%'";
+    WHERE resumes.contact LIKE '%" . $location . "%'
+    AND JSON_SEARCH(JSON_EXTRACT(resumes.education, '$[*].college'), 'one', '%" . $uni . "%') IS NOT NULL
+    AND resumes.certificate LIKE '%" . $certificate . "%' ";
 
     if (!empty($_POST['degree'])) {
         $degrees = $_POST['degree'];
@@ -70,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $s = trim($s);
                 if ($first) {
                     if ($s == "C") {
-                        $sql .= "resumes.skills LIKE 'C'";
+                        $sql .= "resumes.skills REGEXP CONCAT('\\\b', 'C', '\\\b') ";
                     } else {
                         $sql .= "resumes.skills LIKE '%" . $s . "%' ";
                     }
@@ -82,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql .= ") ";
         }
     }
-    // echo $sql;
+
     $result = $conn->query($sql);
 }
 ?>
@@ -95,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="search" class="form-control" placeholder="Search (ex. Name,...)" aria-label="Username"
             aria-describedby="basic-addon1" onkeyup="showResult(this.value)">
     </div>
-    <div id="livesearch" class="mb-4 py-3 px-1"></div>
+    <div id="livesearch" class="mb-4 py-3 px-1 bg-light"></div>
     <div class="row mt-4 g-4 bg-info-subtle mx-1 bg">
         <div class="col-md-4">
             <div class="form-group">
@@ -204,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </form>
 <div class="table-responsive mx-4">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-light table-hover">
         <thead class="table-dark">
             <tr>
 

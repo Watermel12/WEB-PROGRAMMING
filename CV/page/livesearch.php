@@ -21,12 +21,12 @@ if (strlen($q) > 0) {
                 $url = $z->item(0)->childNodes->item(0)->nodeValue;
                 $skill = $t->item(0)->childNodes->item(0)->nodeValue;
                 if ($hint == "") {
-                    $hint = "<a style='text-decoration: none;' href='" .
+                    $hint = "<a target = '_blank' style='text-decoration: none;' href='" .
                         $url .
                         "'>" . "<div>" . $name . " (" . $skill . ")" . "</div>"
                         . "</a>";
                 } else {
-                    $hint = $hint . "<br /><a style='text-decoration: none' href='" .
+                    $hint = $hint . "<br /><a target = '_blank' style='text-decoration: none' href='" .
                         $url .
                         "'>" . "<div >" . $name . " (" . $skill . ")" . "</div>" . "</a>";
                 }

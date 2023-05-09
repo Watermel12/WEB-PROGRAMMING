@@ -214,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-        <div class="col-12"><button type="submit" class="btn btn-success my-3">Submit</button></div>
+        <div class="col-12"><button type="submit" class="btn btn-success my-3 w-100">Submit</button></div>
     </div>
 </form>
 <div class="table-responsive mx-4">
@@ -231,6 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </thead>
         <?php
         $result = $conn->query($sql);
+        $error = "<h3 class='text-center text-danger py-2'>No CV found</h3>";
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $row['contact'] = json_decode($row['contact'], true);
@@ -254,25 +255,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <a target='_blank' href='" . SITE_URL . "resume/" . $row['url'] . "' class='btn btn-info position-absolute top-50 start-50 translate-middle' role='button'>View</a>
                     </td>
                 </tr>";
-
+                $is_error = false;
                 if (!empty($_POST['min_exp'])) {
                     if ($exp_year >= $min_exp) {
                         if (!empty($_POST['max_exp'])) {
-                            if ($exp_year <= $max_exp) {
+                            if ($min_exp <= $max_exp && $exp_year <= $max_exp) {
                                 echo $html;
-                            }
+                            } else $is_error = true;
                         } else echo $html;
-                    }
+                    } else $is_error = true;
                 } else if (!empty($_POST['max_exp'])) {
                     if ($exp_year <= $max_exp) {
                         echo $html;
                     }
+                    else $is_error = true;
                 } else {
                     echo $html;
                 }
+                if ($is_error) {
+                    echo $error;
+                    return;
+                }
             }
         } else {
-            echo '<h3 class="text-center text-danger py-2">No CV found</h3>';
+            echo $error;
         }
 
         ?>

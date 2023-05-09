@@ -1,52 +1,31 @@
 <?xml version="1.0"?>
 <Resumes>
- <Resume ID="18">
-  <Name>Nguyễn Việt Thắng</Name>
-  <Contact>{"address":"HCM, Viet Nam"}</Contact>
-  <Skills>html, css</Skills>
-  <Education>[{"college":"Bach Khoa","course":"Computer Scient","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/t82y735183xzy1uw6q</Url>
+ <Resume ID="23">
+  <Name>Tran Gia Bao</Name>
+  <Contact>{"address":"HCM"}</Contact>
+  <Skills>HTML, CSS, C</Skills>
+  <Education>[{"college":"Bach Khoa","course":"Bachelor","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/6tzx8y07w31618yqu3</Url>
  </Resume>
- <Resume ID="19">
-  <Name>Nguyễn Mạnh Phú Qúy</Name>
-  <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
-  <Skills>HTML, CSS, PHP</Skills>
-  <Education>[{"college":"Ho Chi Minh University of Technology, HCM City, Vietnam","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/183xzy2u581q86tyw5</Url>
+ <Resume ID="22">
+  <Name>Nguyen Viet Thang</Name>
+  <Contact>{"address":"Da Nang"}</Contact>
+  <Skills>HTML, python</Skills>
+  <Education>[{"college":"Bach Khoa","course":"Bachelor","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/z136x1u1803ywy6t1q</Url>
  </Resume>
- <Resume ID="19">
-  <Name>Nguyễn Mạnh Phú Qúy</Name>
-  <Contact>{"address":"HCM City, Vietnam"}</Contact>
-  <Skills>HTML, CSS, C++</Skills>
-  <Education>[{"college":"Bach Khoa University, Ho Chi Minh City","course":"Doctoral in CS","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/yqzxt80661w89y0u83</Url>
+ <Resume ID="22">
+  <Name>Nguyen Viet Thang</Name>
+  <Contact>{"address":"Ha Noi"}</Contact>
+  <Skills>HTML, C++, java, React</Skills>
+  <Education>[{"college":"KHTN","course":"Master","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/3w1u761t8y161xqyz7</Url>
  </Resume>
- <Resume ID="18">
-  <Name>Nguyễn Việt Thắng</Name>
-  <Contact>{"address":"HCM, Viet Nam"}</Contact>
-  <Skills>html, css, ruby</Skills>
-  <Education>[{"college":"Bach Khoa","course":"Computer Scient","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/t82y735183xzy1uw6q</Url>
- </Resume>
- <Resume ID="18">
-  <Name>Nguyễn Việt Thắng</Name>
-  <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
-  <Skills>HTML, PHP, CSS, ANTLR</Skills>
-  <Education>[{"college":"Ho Chi Minh University of Technology","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/zx68518qw3yu35yt01</Url>
- </Resume>
- <Resume ID="19">
-  <Name>Nguyễn Mạnh Phú Qúy</Name>
-  <Contact>{"address":"46 HT35, Hiep Thanh Ward, District 12, HCM City, Vietnam"}</Contact>
-  <Skills>HTML, CSS, PHP, Go</Skills>
-  <Education>[{"college":"Ho Chi Minh University of Technology, HCM City, Vietnam","course":"Bachelor in Computer Science","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/183xzy2u581q86tyw5</Url>
- </Resume>
- <Resume ID="19">
-  <Name>Nguyễn Mạnh Phú Qúy</Name>
-  <Contact>{"address":"HCM City, Vietnam"}</Contact>
-  <Skills>HTML, CSS, C++, C#, Java</Skills>
-  <Education>[{"college":"Bach Khoa University, Ho Chi Minh City","course":"Doctoral in CS","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/WEB-PROGRAMMING/CV/resume/yqzxt80661w89y0u83</Url>
+ <Resume ID="22">
+  <Name>Nguyen Viet Thang</Name>
+  <Contact>{"address":"dasdasd"}</Contact>
+  <Skills>CSS</Skills>
+  <Education>[{"college":"dasdas","course":"dadad","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/y9x2y9uw68z16315qt</Url>
  </Resume>
 </Resumes>

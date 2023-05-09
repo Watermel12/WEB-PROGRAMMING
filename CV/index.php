@@ -6,9 +6,7 @@ $action->helper->route('/',function()
     global $action;
     $data ['title'] = 'CV Online - Make & Share CV Online';
     if($action->user_id() != 0){
-        $action->view->load('header', $data);
-        $action->view->load('navbar', $data); 
-        $action->view->load('footer');
+        $action->helper->redirect('home');
     }
     else {
         $action->helper->redirect('login');
@@ -35,6 +33,24 @@ $action->helper->route('action/createresume',function()
     $resume_data[4] = json_encode($_POST['skill']);
     $education=array();
     $work=array();
+//////////////////////////
+    $certificate=array();
+    $refer=array();
+foreach($_POST['titles'] as $key=>$value)
+    {
+$certificate[$key]['titles']=$action->db->clean($value);
+$certificate[$key]['or_name']=$action->db->clean($_POST['or_name'][$key]);
+$certificate[$key]['cert_duration']=$action->db->clean($_POST['cert_duration'][$key]);
+    }
+    var_dump($certificate);
+foreach($_POST['re_name'] as $key=>$value)
+    {
+$refer[$key]['re_name']=$action->db->clean($value);
+$refer[$key]['re_email']=$action->db->clean($_POST['re_email'][$key]);
+$refer[$key]['re_number']=$action->db->clean($_POST['re_number'][$key]);
+$refer[$key]['re_relate']=$action->db->clean($_POST['re_relate'][$key]);
+    }
+/////////////////////////
 foreach($_POST['college'] as $key=>$value)
     {
 $education[$key]['college']=$action->db->clean($value);
@@ -47,12 +63,14 @@ foreach($_POST['company'] as $key=>$value)
 $work[$key]['company']=$action->db->clean($value);
 $work[$key]['jobrole']=$action->db->clean($_POST['jobrole'][$key]);
 $work[$key]['w_duration']=$action->db->clean($_POST['w_duration'][$key]);
-$work[$key]['work_desc']=$action->db->clean($_POST['work_desc'][$key]);
+$work[$key]['work_desc']=$action->db->clean(str_replace("\r\n", "", $_POST['work_desc'][$key]));
     }
     $resume_data[6] = json_encode($work);
     $resume_data[7] = json_encode($education);
-    $resume_data[8] = $action->helper->UID();
-    $run=$action->db->insert('resumes', 'user_id,headline,objective,contact,skills,experience,education,url', $resume_data);
+    $resume_data[8] = json_encode($certificate);
+    $resume_data[9] = json_encode($refer);
+    $resume_data[10] = $action->helper->UID();
+    $run=$action->db->insert('resumes', 'user_id,headline,objective,contact,skills,experience,education,certificate,reference,url', $resume_data);
     if($run)
     {
          $action->session->set('success', 'resume created');
@@ -133,15 +151,14 @@ $action->helper->route('resume/$url',function($data)
 {
     global $action;
     $resumedata=$action->db->read("resumes","*", "WHERE url='".$data['url']."'" );
-    $userdata=$action->db->read("users","full_name,email_id,phone_num", "WHERE id='".$action->user_id()."'" );
+    $userdata=$action->db->read("users","full_name,email_id,phone_num,img", "WHERE id='".$action->user_id()."'" );
     if(!$resumedata)
     {
         $action->helper->redirect('home');
 
     }
     $resumedata=$resumedata[0];
-    echo "<pre>";
-
+    
 
     $data ['title'] = $resumedata['headline'];
     $data ['type'] = 1;
@@ -173,6 +190,22 @@ $action->helper->route('home',function()
     $action->view->load('header', $data);
     $action->view->load('navbar',$data);
     $action->view->load('home_content',$data);
+    $action->view->load('footer');
+    }
+});
+$action->helper->route('profile',function()
+{
+    global $action;
+    $action->onlyForAuthUser();
+    if($action->user_id()){
+    $data ['title'] = 'Profile';
+    $data ['myresume'] = 'active';
+
+    $data['resumes']=$action->db->read('resumes',"*","WHERE user_id=".$action->user_id());
+
+    $action->view->load('header', $data);
+    $action->view->load('navbar',$data);
+    $action->view->load('profile',$data);
     $action->view->load('footer');
     }
 });
@@ -235,23 +268,6 @@ $action->helper->route('action/login',function()
     
 });
 
-//for search form
-$action->helper->route('search', function () {
-    global $action;
-    $data['title'] = 'Search CV Forms';
-
-    $action->view->load('header', $data);
-    $action->view->load('navbar', $data);
-    $action->view->load('search_form');
-    $action->view->load('footer');
-});
-
-$action->helper->route('live_search', function () {
-    global $action;
-    $data['title'] = 'LiveSearching';
-    $action->view->load('livesearch');
-});
-
 //for signup
 
 $action->helper->route('signup',function()
@@ -296,24 +312,48 @@ $action->helper->route('action/signup',function()
         $signup_data[1] = $action->db->clean($_POST['email']);
         $signup_data[2] = $action->db->clean($_POST['phone-num']);
         $signup_data[3] = $action->db->clean($_POST['password']);
+        $img_name = $_FILES['image']['name'];
+        $img_type = $_FILES['image']['type'];
+        $tmp_name = $_FILES['image']['tmp_name'];
+        $target_dir = "page/upload_img/";
+        $target_file = $target_dir . basename($img_name);
+        move_uploaded_file($tmp_name, $target_file);
+        $signup_data[4] = $img_name;
         $user=$action->db->read('users', 'email_id', "WHERE email_id='$signup_data[1]'");
         if(count($user) > 0)
         {
             $action->session->set('error', $signup_data[1]." is already registered");
             $action->helper->redirect('signup');
 
-        }else{
-            $action->db->insert('users', 'full_name, email_id, phone_num, password', $signup_data);
-            $action->session->set('success', 'account created !');
+        }
+        else{
+            $action->db->insert('users', 'full_name, email_id, phone_num, password,img', $signup_data);
+            $action->session->set('success', 'account created !');      
             $action->helper->redirect('login');
+            
+            
         }
 
         
     }
 });
 
+//for search form
+$action->helper->route('search', function () {
+    global $action;
+    $data['title'] = 'Search CV Forms';
 
+    $action->view->load('header', $data);
+    $action->view->load('navbar', $data);
+    $action->view->load('search_form');
+    $action->view->load('footer');
+});
 
+$action->helper->route('live_search', function () {
+    global $action;
+    $data['title'] = 'LiveSearching';
+    $action->view->load('livesearch');
+});
 
 if(!Helper::$isPageIsAvailable)
 {

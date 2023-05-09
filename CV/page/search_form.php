@@ -1,3 +1,8 @@
+<style>
+  .bg {
+    border-radius: 15px;
+  }
+</style>
 <?php
 $location = '';
 $certificate = '';
@@ -105,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             aria-describedby="basic-addon1" onkeyup="showResult(this.value)">
     </div>
     <div id="livesearch" class="mb-4 py-3 px-1"></div>
-    <div class="row mt-4 g-4 bg-info-subtle mx-1">
+    <div class="row mt-4 g-4 bg-info-subtle mx-1 bg">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="location" class="form-label">Location</label>
@@ -209,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-        <div class="col-12"><button type="submit" class="btn btn-primary my-3">Submit</button></div>
+        <div class="col-12"><button type="submit" class="btn btn-success my-3">Submit</button></div>
     </div>
 </form>
 <div class="table-responsive ">

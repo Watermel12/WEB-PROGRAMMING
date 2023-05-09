@@ -1,3 +1,4 @@
+
 <?php
 $resume['contact'] = str_replace('\\',"",$resume['contact']);
 $resume['skills'] = str_replace('\\',"",$resume['skills']);
@@ -29,6 +30,12 @@ $img = $resume[0]['img'];
            
         <link rel="icon" href="../assets/images/logo.png">
         <title><?=@$title?></title>
+		<style>
+		body {
+		background-image: url('https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg');
+        background-size: 100% 150%;
+		}
+	</style>
     </head>
     <body>
     

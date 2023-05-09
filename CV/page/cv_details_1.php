@@ -93,6 +93,6 @@
     </div>
   </div>
   
-  <button type="submit" class="btn btn-warning"><i class="bi bi-box2"></i> Create Resume</button>
+  <button type="submit" class="btn btn-success"><i class="bi bi-box2"></i> Create Resume</button>
 </form>
 </div>

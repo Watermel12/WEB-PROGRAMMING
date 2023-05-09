@@ -1,6 +1,11 @@
+<style>
+  .bg {
+    border-radius: 15px;
+  }
+</style>
 <div class="container">
     <h2 class="my-2">Select Your CV Template</h2>
-<div class="card my-3" style="max-width: 540px;">
+<div class="card my-3 bg" style="max-width: 540px;">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="assets/images/cv_t_1.jpg" class="img-fluid rounded-start" alt="...">

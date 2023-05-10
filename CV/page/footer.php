@@ -299,6 +299,23 @@ function showResult(str) {
     xmlhttp.send();
 }
 /////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+// addskill 
+$("#addinfor").click(function()
+{
+  var userinfo=$('#userinfo').val();
+  if(!userinfo)
+  {
+    Toast.fire({
+  icon: 'warning',
+  title: 'enter an additional information'
+});
+return;
+  }
+$("#addinfo").append(`<span class="badge bg-warning p-2 m-1"> ${userinfo} <input type='hidden' name='userinfo[]' value='${userinfo}'/> <span class="text-black removeinfo" onclick='removeinfo(this)'>X</span></span>`)
+$('#userinfo').val('');
+});
+//////////////////////////////////////////////////////
 function removeskill(button)
 {
   $(button).parent().remove();

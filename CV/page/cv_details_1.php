@@ -89,6 +89,15 @@
   </div>
   <hr>
   <div class="mb-3">
+    <label for="inputEmail3" class="col-form-label fs-4"><i class="bi bi-tools"></i>Additional Information</label>
+    <div id="addinfo">
+    </div>
+    <div class="d-flex gap-2 p-3 bg-warning bg-opacity-10 border border-warning border-start-0 rounded-pill">
+    <input type="text" class="form-control" id= "userinfo" placeholder="Hobby, Habits,..." aria-label="Example text with button addon" aria-describedby="button-addon1">
+    <button class="btn btn-primary" type="button" id="addinfor"> Add </button>  
+  </div>
+
+  <div class="mb-3">
     <label for="inputEmail3" class="col-sm-2 col-form-label fs-4"><i class="bi bi-journal-bookmark-fill"></i> Reference</label>
     <div id="references" class= "">
       

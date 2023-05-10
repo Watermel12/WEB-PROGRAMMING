@@ -9,6 +9,7 @@ $resume['reference'] = str_replace('\\',"",$resume['reference']);
 
 $contact=json_decode($resume['contact']);
 $skills=json_decode($resume['skills']);
+$addinfo=json_decode($resume['addinfo']);
 $works=json_decode($resume['experience']);
 $education=json_decode($resume['education']);
 $certificate=json_decode($resume['certificate']);
@@ -193,6 +194,26 @@ $img = $resume[0]['img'];
 												
 							
 					</div><!--// .yui-gf -->
+						
+					<div class="yui-gf">
+						<div class="yui-u first">
+							<h2>Additional information</h2>
+						</div>
+						<div class="yui-u">
+							<ul class="talent">
+							<?php
+							foreach($addinfo as $addinf)
+								{
+								?>
+								
+								<li><?=$addinf?></li>
+								
+								<?php
+								}
+								?>
+							</ul>
+						</div>
+					</div><!--// .yui-gf-->
 
 					<div class="yui-gf last">
 						<div class="yui-u first"->

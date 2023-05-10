@@ -25,9 +25,9 @@ $action->helper->route('action/createresume',function()
     $resume_data[0] = $user_id;
 
     $resume_data[1] = $action->db->clean($_POST['headline']);
-    $resume_data[2] = $action->db->clean($_POST['objective']);
+    $resume_data[2] = $action->db->clean(str_replace("\r\n", "",$_POST['objective']));
     
-    $contact['address'] = $action->db->clean($_POST['address']);
+    $contact['address'] = $action->db->clean(str_replace("\r\n", "",$_POST['address']));
 
     $resume_data[3] = json_encode($contact);
     $resume_data[4] = json_encode($_POST['skill']);

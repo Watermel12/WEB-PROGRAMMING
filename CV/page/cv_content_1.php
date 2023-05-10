@@ -50,9 +50,10 @@ $img = $resume[0]['img'];
 					<h1><?=$name?></h1>
 					<h2><?=@$resume['headline']?></h2>
 					<div class="contact-info">
-						<h3><?=$phone_num?></h3>
-						<h3><a href="mailto:<?=@$email?>"><?=@$email?></a></h3>
-						<h3><?=$contact->address?></h3>
+						<h3>Contact:</h3>
+						<h3>Phone number: <?=$phone_num?></h3>
+						<h3>Email: <a href="mailto:<?=@$email?>"><?=@$email?></a></h3>
+						<h3>Address: <?=$contact->address?></h3>
 					</div><!--// .contact-info -->
 				</div>
 
@@ -70,7 +71,7 @@ $img = $resume[0]['img'];
 
 					<div class="yui-gf">
 						<div class="yui-u first">
-							<h2>Objective</h2>
+							<h2>Job Goal</h2>
 						</div>
 						
 						<div class="yui-u">
@@ -108,22 +109,21 @@ $img = $resume[0]['img'];
 							<h2>Experience</h2>
 						</div><!--// .yui-u -->
 
-						<div class="yui-u">
+						
 						<?php
 						if(count($works)<1)
 						{
 						?>
-						<div class="job">
-							<h2><?=$work->company?></h2>
-							<h3><?=$work->jobrole?></h3>
-							<h4><?=$work->w_duration?></h4>
-							<p><?=$work->work_desc?></p>
+						<div class="yui-u">
+
+							<h3>no education</h3>
 						</div>
 						<?php
 						}
 						foreach($works as $work)
 						{
 							?>
+							<div class="yui-u">
 							<div class="job">
 							<h2><?=$work->company?></h2>
 							<h3><?=$work->jobrole?></h3>

@@ -85,7 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($first) {
                     if ($s == "C") {
                         $sql .= "resumes.skills REGEXP CONCAT('\\\b', 'C', '\\\b') ";
-                    } else {
+                    } else if ($s == "Java"){
+                        $sql .= "resumes.skills REGEXP CONCAT('\\\b', 'Java', '\\\b') ";
+                    }else {
                         $sql .= "resumes.skills LIKE '%" . $s . "%' ";
                     }
                     $first = false;

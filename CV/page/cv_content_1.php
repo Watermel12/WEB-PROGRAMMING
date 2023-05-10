@@ -102,6 +102,7 @@ $img = $resume[0]['img'];
 								?>
 							</ul>
 						</div>
+							</div>
 					</div><!--// .yui-gf-->
 
 					<div class="yui-gf">
@@ -117,7 +118,7 @@ $img = $resume[0]['img'];
 						?>
 						<div class="yui-u">
 
-							<h3>no education</h3>
+							<h3>no experience</h3>
 						</div>
 						<?php
 						}
@@ -125,17 +126,18 @@ $img = $resume[0]['img'];
 						{
 							?>
 							<div class="yui-u">
-							<div class="job">
-							<h2><?=$work->company?></h2>
-							<h3><?=$work->jobrole?></h3>
-							<h4><?=$work->w_duration?></h4>
-							<p><?=$work->work_desc?></p>
-						</div>
+								<div class="job">
+								<h2><?=$work->company?></h2>
+								<h3><?=$work->jobrole?></h3>
+								<h4><?=$work->w_duration?></h4>
+								<p><?=$work->work_desc?></p>
+								</div>
+							</div>
 						<?php
 						}
 													?>
 
-						</div><!--// .yui-u -->
+						<!--// .yui-u -->
 					</div><!--// .yui-gf -->
 
 					

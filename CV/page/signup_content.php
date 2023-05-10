@@ -24,11 +24,11 @@
       <input type="password" class="form-control" name = "password" id="floatingPassword" placeholder="Password" required>
       <label for="floatingPassword">Password</label>
     </div>
+    </br>
     <div class="field image">
           <label>Select Image</label>
           <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
     </div>
-    </br>
     <button class="w-100 btn btn-lg btn-success" type="submit"> Signup </button>
     <a href = "<?=$action->helper->url('login')?>" class="d-block mt-2 text-success">Already have an account ?</a>
   </form>

@@ -1,10 +1,24 @@
 <?xml version="1.0"?>
 <Resumes>
- <Resume ID="22">
-  <Name>Nguyen Viet Thang</Name>
+ <Resume ID="27">
+  <Name>Tran Gia Bao</Name>
   <Contact>{"address":"HCM, Viet Nam"}</Contact>
-  <Skills>HTML, CSS, Javascript</Skills>
-  <Education>[{"college":"Back Khoa University","course":"Bachelor in computer Scient","e_duration":"2020-2024"}]</Education>
-  <Url>http://localhost/CV/resume/8wq3yz9t95y4u66x18</Url>
+  <Skills>HTML, C, JavaScript</Skills>
+  <Education>[{"college":"Bach Khoa university","course":"Bachelor in computer Scient","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/wu3xz961y960t0y5q8</Url>
+ </Resume>
+ <Resume ID="27">
+  <Name>Tran Gia Bao</Name>
+  <Contact>{"address":"HCM, Viet Nam"}</Contact>
+  <Skills>C, Python</Skills>
+  <Education>[{"college":"Bach Khhoa university","course":"Bachelor in computer scient","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/996q7y1w8u556y3xtz</Url>
+ </Resume>
+ <Resume ID="28">
+  <Name>Nguyen Hoang Nhat Duy</Name>
+  <Contact>{"address":"Ha Noi, Viet Nam"}</Contact>
+  <Skills>SQL, PHP</Skills>
+  <Education>[{"college":"Bcah Khoa university, Ha Noi","course":"Bachelor in computer engineering","e_duration":"2020-2024"}]</Education>
+  <Url>http://localhost/CV/resume/xq677zy39uyw683t13</Url>
  </Resume>
 </Resumes>

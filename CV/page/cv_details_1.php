@@ -105,7 +105,7 @@
     <div class="d-flex gap-2 p-3 bg-warning bg-opacity-10 border border-warning border-start-0 rounded-pill">
       <input type="text" class="form-control" id="re_name" placeholder = "Dua Hau">
       <input type="email" class="form-control" id="re_email" placeholder = "thang@gmail.com">
-      <input type="text" class="form-control" id="re_number" placeholder = "123456789">
+      <input type="text" class="form-control" id="re_number" pattern="[0-9]+" placeholder = "Phone number">
       <input type="text" class="form-control" id="re_relate" placeholder = "sister">
       <button type = "button" class = "btn btn-primary" id="addrefer"> Add </button>
     </div>
